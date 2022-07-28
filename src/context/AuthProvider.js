@@ -1,35 +1,14 @@
-import { useContext, createContext, useState } from "react"
-import { fakeAuthProvider } from "../helper/auth"
+import { createContext, useState, useEffect } from "react"
 
-const AuthProvider = ({ children }) => {
-	let AuthContext = createContext()
+const AuthContext = createContext()
 
-	function AuthProvider({ children }) {
-		let [user, setUser] = useState()
-
-		let signin = (newUser, callback) => {
-			return fakeAuthProvider.signin(() => {
-				setUser(newUser)
-				callback()
-			})
-		}
-
-		let signout = (callback) => {
-			return fakeAuthProvider.signout(() => {
-				setUser(null)
-				callback()
-			})
-		}
-
-		let value = { user, signin, signout }
-
-		return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-	}
-
-	function useAuth() {
-		return useContext(AuthContext)
-	}
-	return <AuthContext value={value}>{children}</AuthContext>
+const AuthContextProvider = (props) => {
+	const [auth, setAuth] = useState(false)
+	const [data, setData] = useState([])
+	const values = { data, auth }
+	return (
+		<AuthContext.Provider value={values}>{props.children}</AuthContext.Provider>
+	)
 }
 
-export default AuthProvider
+export default AuthContextProvider

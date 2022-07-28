@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import "../style/form.css"
 
-const Form = (props) => {
+const Form = ({ fieldValue }) => {
 	const [data, setData] = useState("")
 	const {
 		register,
@@ -9,37 +10,9 @@ const Form = (props) => {
 		handleSubmit,
 	} = useForm()
 
-	const fieldValue = [
-		{
-			type: "text",
-			name: "email",
-			label: "Email",
-			placeholder: "Enter Email",
-			errors: "Email is required",
-			required: true,
-			pattern: {
-				value: /\S+@\S+\.\S+/,
-				message: "Entered value does not match email format",
-			},
-		},
-		{
-			type: "password",
-			name: "password",
-			label: "Password",
-			placeholder: "Enter Password",
-		},
-		{
-			type: "password",
-			name: "confirm_password",
-			label: "Password Confirmation",
-			placeholder: "Re-Enter Password",
-			required: true,
-			errors: "Passwords do not match",
-		},
-	]
 	console.log(errors ? errors : null)
 	return (
-		<div>
+		<div className='form-body'>
 			<form
 				onSubmit={handleSubmit(async (data) => {
 					setData(data)
