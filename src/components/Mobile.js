@@ -20,7 +20,7 @@ const Mobile = () => {
 		setActive(false)
 	}
 	return (
-		<div className='header'>
+		<div className={`header${active ? "-active" : ""}`}>
 			<div>
 				<Hamburger active={active} changeStatus={() => changeStatus()} />
 			</div>
