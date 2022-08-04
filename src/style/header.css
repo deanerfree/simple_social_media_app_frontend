@@ -1,4 +1,4 @@
-
+a { color: inherit; } 
 
 .header {
   position:absolute;
@@ -31,39 +31,71 @@
 
 @media only screen and (max-width: 786px) {
   .header {
+    position: absolute;
     display: flex;
     flex-direction: column;
-    padding: 10px 0px 10px 10px;
+    padding-top: 10px;
     width: 100%;
     height: 35px;
+    z-index: 10;
+  }
+  .headertop {
+    padding: 5px 0px 10px 10px;
   }
   .header-active {
+    position: absolute;
     display: flex;
     flex-direction: column;
-    padding: 10px 0px 10px 10px;
+    padding-top: 10px;
     width: 100%;
     background-color: #808dcd;
-    animation: increaseHeader 0.6s forwards;
+    z-index: 10;
+    overflow: hidden;
+    border-bottom: 1px solid #464646;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .header-active .menu-list ul {
+    visibility: visible;
+    height: auto;
+    max-height: fit-content;
+    opacity: 1;
+  }
+  .menu-list {
+    overflow: hidden; 
   }
   .menu-list ul {
+    position: relative;
+    visibility: hidden;
     margin: 0px;
     display: flex;
-    /* justify-content: center; */
     flex-direction: column;
-    padding: 0px;
+    opacity: 0;
+    max-height: 0px;
+    overflow: hidden; 
   }
   
   .menu-list ul li {
     margin: 0px;
     border-top:1px solid #464646;
     list-style-type: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-decoration: none;
+    padding: 7px 0 7px 0;
+  }
+ 
+
+  .menu-item {
+    background-color: #808dcd;
   }
 
-
+  .menu-item:hover {
+    background-color: #353b57;
+    color: azure;
+  }
+  .menu-item:active {
+    background-color: #b3bef5;
+    color: #353b57;
+  }
 
   .hamburger{
     display: block;
@@ -113,12 +145,15 @@
   }
 }
 
-@keyframes increaseHeader {
+@keyframes growDown {
   0% {
-    height: 20px;
+      transform: scaleY(0)
+  }
+  80% {
+      transform: scaleY(1.1)
   }
   100% {
-    height: fit-content;
+      transform: scaleY(1)
   }
 }
 

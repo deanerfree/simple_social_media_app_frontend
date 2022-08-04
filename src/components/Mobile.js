@@ -7,9 +7,13 @@ const Mobile = () => {
 	const location = useLocation()
 	const linkStyle = {
 		textDecoration: "none",
-		color: "black",
+		// color: "black",
 		width: "100%",
 		height: "100%",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: "",
 	}
 	useEffect(() => {}, [])
 
@@ -20,15 +24,15 @@ const Mobile = () => {
 		setActive(false)
 	}
 	return (
-		<div className={`header${active ? "-active" : ""}`}>
-			<div>
+		<div className={`${active ? "header-active" : "header"}`}>
+			<div className='headertop'>
 				<Hamburger active={active} changeStatus={() => changeStatus()} />
 			</div>
 
 			<div className='menu-list'>
 				{active ? (
 					<ul>
-						<li>
+						<li className='menu-item'>
 							<Link
 								exact='true'
 								to='/'
@@ -37,12 +41,12 @@ const Mobile = () => {
 								Home
 							</Link>
 						</li>
-						<li>
+						<li className='menu-item'>
 							<Link to='/login' style={linkStyle} onClick={() => closeWindow()}>
 								Login
 							</Link>
 						</li>
-						<li>
+						<li className='menu-item'>
 							<Link
 								to='/signup'
 								style={linkStyle}

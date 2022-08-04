@@ -1,52 +1,65 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router"
+import { fetchRequestOptions } from "../helper/api"
 import "../style/form.css"
 
-const Form = ({ fieldValue }) => {
+const Form = ({ fieldValue, endpoint }) => {
 	const [data, setData] = useState("")
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 	} = useForm()
-
+	const navigate = useNavigate()
 	console.log(errors ? errors : null)
+	console.log(endpoint ? endpoint : null)
+	// console.log(fieldValue ? fieldValue : null)
+
 	return (
-		<div className='form-body'>
+		<div>
 			<form
 				onSubmit={handleSubmit(async (data) => {
-					setData(data)
-					const requestOptions = {
-						method: "POST",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify(data),
+					if (endpoint === "login") {
+						const formData = new FormData()
+						formData.append("username", data.username)
+						formData.append("password", data.password)
+						data = formData
 					}
-					console.log(requestOptions.body)
-					const response = await fetch(
-						["http://localhost:8000/users"],
-						requestOptions
-					)
-					const jsonData = await response.json()
-					console.log(jsonData)
+					setData(data)
+					const response = await fetchRequestOptions(data, endpoint)
+					console.log(response)
+					if (response.access_token) {
+						navigate("/profile")
+					}
 				})}>
-				{fieldValue.map((fieldItem, index) => {
-					return (
-						<div key={index}>
-							<input
-								{...register(fieldItem.name, {
-									required: fieldItem.required ? `${fieldItem.errors}` : null,
-									pattern: fieldItem.pattern ? fieldItem.pattern : null,
-								})}
-								placeholder={fieldItem.placeholder}
-								type={fieldItem.type}
-							/>
-							{errors?.[fieldItem.name] ? (
-								<p>{errors?.[fieldItem.name]?.message}</p>
-							) : null}
-						</div>
-					)
-				})}
-				<input type='submit' />
+				<div
+					className={
+						endpoint === "login" || endpoint === "signup"
+							? "form-body"
+							: "postBox"
+					}>
+					{fieldValue.map((fieldItem, index) => {
+						return (
+							<div
+								className={endpoint === "post" ? "form-items" : null}
+								key={index}>
+								<input
+									{...register(fieldItem.name, {
+										required: fieldItem.required ? `${fieldItem.errors}` : null,
+										pattern: fieldItem.pattern ? fieldItem.pattern : null,
+									})}
+									placeholder={fieldItem.placeholder}
+									type={fieldItem.type}
+								/>
+								{errors?.[fieldItem.name] ? (
+									<p>{errors?.[fieldItem.name]?.message}</p>
+								) : null}
+							</div>
+						)
+					})}
+					<input className='submit-button' type='submit' />
+				</div>
 			</form>
 		</div>
 	)

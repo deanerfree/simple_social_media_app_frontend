@@ -1,5 +1,7 @@
 .form-body{
-position: relative;
-top: 80px;
-left: 0;
-z-index: 1;}
+  position: absolute;
+  top: 70px;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
